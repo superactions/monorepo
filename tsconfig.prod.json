@@ -11,5 +11,5 @@
     "stripInternal": true
   },
   "files": [],
-  "references": []
+  "references": [{ "path": "./packages/sdk-artifact/tsconfig.build.json" }]
 }

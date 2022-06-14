@@ -1,0 +1,27 @@
+{
+  "name": "@superactions/artifact",
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "start": "node -r esbuild-register ./src",
+    "format": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --check \"./**/*.ts\"",
+    "format:fix": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"./**/*.ts\"",
+    "lint": "eslint --ext .ts src",
+    "lint:fix": "pnpm lint --fix",
+    "typecheck": "tsc --noEmit --incremental false --composite false",
+    "clean": "rm -rf dist && rm -f tsconfig.build.tsbuildinfo",
+    "test": "mocha --config ../../.mocharc.js",
+    "fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck",
+    "prepublishOnly": "pnpm lint && pnpm test && pnpm build"
+  },
+  "dependencies": {
+    "@types/form-data": "^2.5.0",
+    "form-data": "^4.0.0",
+    "formdata-polyfill": "^4.0.10",
+    "got": "^12.1.0",
+    "node-fetch": "^3.2.5"
+  }
+}

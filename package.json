@@ -12,7 +12,7 @@
     "lint": "pnpm run --parallel --aggregate-output --reporter append-only --filter './packages/**' lint",
     "lint:fix": "pnpm --parallel --aggregate-output --reporter append-only --filter './packages/**' lint:fix",
     "typecheck": "pnpm --parallel --aggregate-output --reporter append-only --filter './packages/**' typecheck",
-    "build": "tsc --build --verbose ./tsconfig.prod.json",
+    "build": "tsc --build --verbose ./tsconfig.prod.json && pnpm run --parallel --filter './packages/**' build",
     "postbuild": "pnpm run --parallel --filter './packages/**' post-build",
     "watch": "tsc --build --verbose --watch ./tsconfig.prod.json",
     "clean": "pnpm --filter './packages/**' clean",

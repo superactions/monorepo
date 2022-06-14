@@ -32,3 +32,16 @@ jobs:
 
       - run: pnpm test
       - run: pnpm typecheck
+
+      - uses: ./packages/example
+
+  # run-example:
+  #   strategy:
+  #     matrix:
+  #       node: ['16']
+  #       os: [ubuntu-latest]
+  #   runs-on: ${{ matrix.os }}
+
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: ./packages/example

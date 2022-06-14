@@ -1,0 +1,9 @@
+name: 'SuperAction example'
+description: 'SuperAction example'
+author: 'SuperActions'
+inputs:
+  token:
+    default: ${{ github.token }}
+runs:
+  using: 'node16'
+  main: 'dist/index.js'

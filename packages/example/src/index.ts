@@ -28,7 +28,6 @@ async function main(): Promise<void> {
       return report(size, baseSize as any, diff)
     }
   }
-  return report(size)
 }
 
 async function report(currentSize: number, previousSize?: number, diff?: number): Promise<void> {
@@ -51,6 +50,7 @@ main().catch((e: Error) => {
   core.setFailed(e)
 })
 
+// @todo add auto updating existing comment to this function and move to a separate package
 async function comment(message: string): Promise<void> {
   const {
     payload: { pull_request, repository },

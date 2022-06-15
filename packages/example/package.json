@@ -12,7 +12,7 @@
     "lint:fix": "pnpm lint --fix",
     "typecheck": "tsc --noEmit --incremental false --composite false",
     "clean": "rm -rf dist && rm -f tsconfig.build.tsbuildinfo",
-    "test": "mocha --config ../../.mocharc.js",
+    "test": "true",
     "fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck",
     "prepublishOnly": "pnpm lint && pnpm test && pnpm build"
   },

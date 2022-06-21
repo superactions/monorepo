@@ -21,11 +21,16 @@ async function main(): Promise<void> {
 
   const { size } = statSync(join(__dirname, '../../../pnpm-lock.yaml'))
 
+  core.info('Uploading artifact')
   await artifactClient.uploadValue(artifactKey, { size })
 
   if (context.eventName === 'pull_request') {
+    core.info('Running on PR')
+
     const baseArtifact = await artifactClient.downloadValue<SizeArtifact>(artifactKey)
     if (baseArtifact) {
+      core.info('Found base artifact. Creating report.')
+
       const diff = size - baseArtifact.size
 
       return report(size, baseArtifact.size, diff)

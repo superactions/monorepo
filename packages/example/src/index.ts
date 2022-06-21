@@ -43,15 +43,15 @@ async function report(currentSize: number, previousSize?: number, diff?: number)
   const html = `
   <h1>Lockfile size report</h1>
   Current size: ${currentSize}
-  Previous size: ${previousSize || 'unknown'}
-  Diff: ${diff || 'unknown'}
+  Previous size: ${previousSize ?? 'unknown'}
+  Diff: ${diff ?? 'unknown'}
   `
 
   writeFileSync('/tmp/index.html', html)
   await artifactClient.uploadFile('lockfilesize.html', '/tmp/index.html')
   const url = artifactClient.getArtifactUrl('lockfilesize.html')
 
-  await comment(`Lockfile diff: \`${diff || 'unknown'}\`
+  await comment(`Lockfile diff: \`${diff ?? 'unknown'}\`
 
 [HTML Report](${url})`)
 }

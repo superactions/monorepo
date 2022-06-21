@@ -39,7 +39,7 @@ export class ArtifactClient {
     await streamPipeline(fileStream, createWriteStream(destinationPath))
   }
 
-  async downloadValue(key: string): Promise<object | undefined> {
+  async downloadValue<T>(key: string): Promise<T | undefined> {
     const tmpFile = '/tmp/json.json'
     try {
       await this.downloadFile(key, tmpFile)

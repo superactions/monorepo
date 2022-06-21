@@ -27,7 +27,7 @@ export class PrArtifactClient extends ArtifactClient {
     return super.downloadFile(join(this.commitContext.baseSha, key), destinationPath)
   }
 
-  async downloadValue(key: string): Promise<object | undefined> {
+  async downloadValue<T>(key: string): Promise<T | undefined> {
     if (this.commitContext.event !== 'pull-request') {
       throw new Error("Can't find base branch!")
     }

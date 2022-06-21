@@ -9,23 +9,26 @@ const artifactClient = artifact.create()
 const token = core.getInput('token')
 const octokit = github.getOctokit(token)
 
+type SizeArtifact = {
+  size: number
+}
+
 /**
  * GitHub (Super) Action measuring size (in bytes) of a lockfile
  */
 async function main(): Promise<void> {
   const artifactKey = 'lockFileSize'
 
-  const statFile = statSync(join(__dirname, '../../../pnpm-lock.yaml'))
-  const size = statFile.size
+  const { size } = statSync(join(__dirname, '../../../pnpm-lock.yaml'))
 
   await artifactClient.uploadValue(artifactKey, { size })
 
   if (context.eventName === 'pull_request') {
-    const baseSize = await artifactClient.downloadValue(artifactKey)
-    if (baseSize) {
-      const diff = size - (baseSize as any).size
+    const baseArtifact = await artifactClient.downloadValue<SizeArtifact>(artifactKey)
+    if (baseArtifact) {
+      const diff = size - baseArtifact.size
 
-      return report(size, baseSize as any, diff)
+      return report(size, baseArtifact.size, diff)
     }
   }
 }

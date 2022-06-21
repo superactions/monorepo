@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "declaration": true,
+    "declarationMap": true, // to fix code navigation issues: https://github.com/microsoft/vscode/issues/73201
+    "stripInternal": true,
     "lib": ["ES2021"],
     "module": "commonjs",
     "target": "ES2021",

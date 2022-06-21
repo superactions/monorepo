@@ -5,10 +5,11 @@
     "target": "ES2021",
     "moduleResolution": "node",
     "declaration": true,
+    "declarationMap": true, // to fix code navigation issues: https://github.com/microsoft/vscode/issues/73201
+    "stripInternal": true,
     "strict": true,
     "composite": true,
-    "incremental": true,
-    "stripInternal": true
+    "incremental": true
   },
   "files": [],
   "references": [{ "path": "./packages/sdk-artifact/tsconfig.build.json" }]

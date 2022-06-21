@@ -11,7 +11,7 @@ describe('ArtifactApi', () => {
   const fileLength = 100
 
   it('uploads artifact', async () => {
-    const apiRoot = 'localhost:0'
+    const apiRoot = 'https://localhost:0'
     const mockHttpClient = mock<HttpClient>({
       post: async () => ({
         status: 'created',
@@ -19,15 +19,15 @@ describe('ArtifactApi', () => {
     })
     const artifactApi = new ArtifactApi(mockHttpClient, apiRoot)
 
-    await artifactApi.uploadArtifact(fileStream, fileLength, 'some-path/image.jpg')
+    await artifactApi.uploadArtifact(fileStream, fileLength, 'some-path/image.jpg', 'image/jpeg')
 
     expect(mockHttpClient.post).toHaveBeenCalledExactlyWith([
-      ['localhost:0/artifact/file/some-path/image.jpg', expect.a(FormData)],
+      ['https://localhost:0/artifact/file/some-path/image.jpg', expect.a(FormData)],
     ])
   })
 
   it('downloads artifact', async () => {
-    const apiRoot = 'localhost:0'
+    const apiRoot = 'https://localhost:0'
     const mockHttpClient = mock<HttpClient>({
       stream: async () => fileStream,
     })
@@ -36,6 +36,18 @@ describe('ArtifactApi', () => {
     const actualFileStream = await artifactApi.downloadArtifact('some-path/image.jpg')
 
     expect(actualFileStream).toEqual(fileStream)
-    expect(mockHttpClient.stream).toHaveBeenCalledExactlyWith([['localhost:0/artifact/file/some-path/image.jpg']])
+    expect(mockHttpClient.stream).toHaveBeenCalledExactlyWith([
+      ['https://localhost:0/artifact/file/some-path/image.jpg'],
+    ])
+  })
+
+  it('return artifact URL', async () => {
+    const apiRoot = 'https://localhost:0'
+    const mockHttpClient = mock<HttpClient>({})
+    const artifactApi = new ArtifactApi(mockHttpClient, apiRoot)
+
+    const actualUrl = artifactApi.getArtifactUrl('deep/path/image.jpg')
+
+    expect(actualUrl).toEqual('https://localhost:0/artifact/file/deep/path/image.jpg')
   })
 })

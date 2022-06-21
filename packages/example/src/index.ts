@@ -28,13 +28,14 @@ async function main(): Promise<void> {
     core.info('Running on PR')
 
     const baseArtifact = await artifactClient.downloadValue<SizeArtifact>(artifactKey)
+    let diff: number | undefined
     if (baseArtifact) {
       core.info('Found base artifact. Creating report.')
 
-      const diff = size - baseArtifact.size
-
-      return report(size, baseArtifact.size, diff)
+      diff = size - baseArtifact.size
     }
+
+    return report(size, baseArtifact?.size, diff)
   }
 }
 
@@ -50,7 +51,9 @@ async function report(currentSize: number, previousSize?: number, diff?: number)
   await artifactClient.uploadFile('lockfilesize.html', '/tmp/index.html')
   const url = artifactClient.getArtifactUrl('lockfilesize.html')
 
-  await comment(`[HTML Report](${url})`)
+  await comment(`Lockfile diff: \`${diff || 'unknown'}\`
+
+[HTML Report](${url})`)
 }
 
 main().catch((e: Error) => {

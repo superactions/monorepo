@@ -42,8 +42,8 @@ async function main(): Promise<void> {
 async function report(currentSize: number, previousSize?: number, diff?: number): Promise<void> {
   const html = `
   <h1>Lockfile size report</h1>
-  Current size: ${currentSize}
-  Previous size: ${previousSize ?? 'unknown'}
+  Current size: ${currentSize}</br>
+  Previous size: ${previousSize ?? 'unknown'}</br>
   Diff: ${diff ?? 'unknown'}
   `
 

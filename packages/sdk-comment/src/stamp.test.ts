@@ -11,13 +11,14 @@ describe(getFullStamp.name, () => {
 describe(attachStampToBody.name, () => {
   it('attaches stamp to a body if it doesnt already contain it', () => {
     expect(attachStampToBody({ body: 'some body', uniqueId: 'once told me' })).toEqual(
-      'some body<!-- @superactions/comment/once told me -->',
+      `some body
+<!-- @superactions/comment/once told me -->`,
     )
   })
 
   it('doesnt duplicate stamp if body already contains it', () => {
-    expect(
-      attachStampToBody({ body: 'some body<!-- @superactions/comment/once told me -->', uniqueId: 'once told me' }),
-    ).toEqual('some body<!-- @superactions/comment/once told me -->')
+    const body = `some body
+<!-- @superactions/comment/once told me -->`
+    expect(attachStampToBody({ body, uniqueId: 'once told me' })).toEqual(body)
   })
 })

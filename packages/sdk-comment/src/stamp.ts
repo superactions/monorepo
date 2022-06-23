@@ -19,6 +19,6 @@ export function attachStampToBody({ uniqueId, body }: { uniqueId: string; body: 
   if (body.includes(fullStamp)) {
     return body
   } else {
-    return body + fullStamp
+    return body + '\n' + fullStamp
   }
 }

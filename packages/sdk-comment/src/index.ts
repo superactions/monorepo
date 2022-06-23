@@ -10,6 +10,14 @@ export type CommentOptions = {
   forceCreateNewComment?: boolean
 }
 
+/**
+ * Create or update existing comment on a PR.
+ * @param options.message - message to post
+ * @param options.githubToken - token to use for connecting to the api
+ * @param options.uniqueAppId - unique id that will be added (hidden) at the end of the message to allow later updates. Good example would be simply a name of your GitHub Action.
+ * @param options.forceCreateNewComment - set to true if you don't want to update a comment but rather create a new one
+ * @returns
+ */
 export async function createCommentOrUpdate({
   message,
   githubToken,

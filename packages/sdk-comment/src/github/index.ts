@@ -1,4 +1,5 @@
+import { findCommentByCommentStamp } from './findCommentIdByCommentStamp'
 import { getAllCommentsForPr } from './getAllCommentsForIssue'
 import { getPrContextFromGithubContext } from './getPrContext'
 
-export { getAllCommentsForPr, getPrContextFromGithubContext }
+export { findCommentByCommentStamp, getAllCommentsForPr, getPrContextFromGithubContext }

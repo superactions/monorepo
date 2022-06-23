@@ -1,9 +1,5 @@
-import * as github from '@actions/github'
-
 import { PrContext } from './getPrContext'
-
-type Octokit = ReturnType<typeof github.getOctokit>
-type GhComment = Awaited<ReturnType<Octokit['rest']['issues']['listComments']>>['data'][number]
+import { GhComment, Octokit } from './types'
 
 const PER_PAGE = 100
 

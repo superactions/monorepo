@@ -7,10 +7,10 @@ export type CommentOptions = {
   message: string
   githubToken: string
   uniqueAppId: string
-  forceCreateNewComment: boolean
+  forceCreateNewComment?: boolean
 }
 
-export async function comment({
+export async function createCommentOrUpdate({
   message,
   githubToken,
   forceCreateNewComment,

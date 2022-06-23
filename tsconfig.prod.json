@@ -12,5 +12,8 @@
     "incremental": true
   },
   "files": [],
-  "references": [{ "path": "./packages/sdk-artifact/tsconfig.build.json" }]
+  "references": [
+    { "path": "./packages/sdk-artifact/tsconfig.build.json" },
+    { "path": "./packages/sdk-comment/tsconfig.build.json" }
+  ]
 }

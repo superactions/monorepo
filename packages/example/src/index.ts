@@ -1,13 +1,13 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 import * as artifact from '@superactions/artifact'
+import { createCommentOrUpdate } from '@superactions/comment'
 import { statSync, writeFileSync } from 'fs'
 import { join } from 'path'
 
 const context = github.context
 const artifactClient = artifact.create()
 const token = core.getInput('token')
-const octokit = github.getOctokit(token)
 
 type SizeArtifact = {
   size: number
@@ -42,8 +42,8 @@ async function main(): Promise<void> {
 async function report(currentSize: number, previousSize?: number, diff?: number): Promise<void> {
   const html = `
   <h1>Lockfile size report</h1>
-  Current size: ${currentSize}
-  Previous size: ${previousSize ?? 'unknown'}
+  Current size: ${currentSize}</br>
+  Previous size: ${previousSize ?? 'unknown'}</br>
   Diff: ${diff ?? 'unknown'}
   `
 
@@ -51,34 +51,18 @@ async function report(currentSize: number, previousSize?: number, diff?: number)
   await artifactClient.uploadFile('lockfilesize.html', '/tmp/index.html')
   const url = artifactClient.getArtifactUrl('lockfilesize.html')
 
-  await comment(`Lockfile diff: \`${diff ?? 'unknown'}\`
+  const message = `Lockfile diff: \`${diff ?? 'unknown'}\`
 
-[HTML Report](${url})`)
+  [HTML Report](${url})`
+
+  await createCommentOrUpdate({
+    message,
+    uniqueAppId: 'superactions/example',
+    githubToken: token,
+  })
 }
 
 main().catch((e: Error) => {
   core.warning(e.stack!)
   core.setFailed(e)
 })
-
-// @todo add auto updating existing comment to this function and move to a separate package
-async function comment(message: string): Promise<void> {
-  const {
-    payload: { pull_request, repository },
-  } = github.context
-
-  // ehh
-  const { full_name: repoFullName } = repository!
-  const [owner, repo] = repoFullName!.split('/')
-
-  core.warning(owner)
-  core.warning(repo)
-  core.warning(JSON.stringify(pull_request))
-
-  await octokit.rest.issues.createComment({
-    owner,
-    repo,
-    issue_number: pull_request?.number!,
-    body: message,
-  })
-}

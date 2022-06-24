@@ -1,25 +1,24 @@
 {
-  "name": "example",
-  "private": "true",
+  "name": "@superactions/comment",
   "version": "0.1.0",
   "license": "MIT",
-  "main": "./src/index.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --outfile=dist/index.js --platform=node",
+    "start": "node -r esbuild-register ./src",
     "format": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --check \"./**/*.ts\"",
     "format:fix": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"./**/*.ts\"",
     "lint": "eslint --ext .ts src",
     "lint:fix": "pnpm lint --fix",
     "typecheck": "tsc --noEmit --incremental false --composite false",
     "clean": "rm -rf dist && rm -f tsconfig.build.tsbuildinfo",
-    "test": "true",
+    "test": "mocha --config ../../.mocharc.js",
     "fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck",
     "prepublishOnly": "pnpm lint && pnpm test && pnpm build"
   },
   "dependencies": {
     "@actions/core": "^1.8.2",
-    "@actions/github": "^5.0.3",
-    "@superactions/artifact": "workspace:^0.1.0",
-    "@superactions/comment": "workspace:^0.1.0"
+    "@actions/github": "^5.0.3"
   }
 }

@@ -2,10 +2,13 @@ import fetch, { Response } from 'node-fetch'
 import stream from 'stream'
 
 export class HttpClient {
-  async post(url: string, body: any): Promise<{}> {
+  async post(url: string, body: any, authToken: string): Promise<{}> {
     const response = await fetch(url, {
       method: 'POST',
       body,
+      headers: {
+        authorization: authToken,
+      },
     })
     await handleFailures(response)
 

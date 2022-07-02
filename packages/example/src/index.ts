@@ -6,8 +6,8 @@ import { statSync, writeFileSync } from 'fs'
 import { join } from 'path'
 
 const context = github.context
-const artifactClient = artifact.create()
 const token = core.getInput('token')
+const artifactClient = artifact.create({ ghToken: token })
 
 type SizeArtifact = {
   size: number

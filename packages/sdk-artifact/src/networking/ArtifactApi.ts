@@ -8,7 +8,12 @@ import { HttpClient } from './HttpClient'
  * @internal class used to simplify communication with SuperActions Artifact API
  */
 export class ArtifactApi {
-  constructor(private readonly httpClient: HttpClient, public readonly apiRoot: string) {}
+  constructor(
+    private readonly httpClient: HttpClient,
+    public readonly apiRoot: string,
+    public readonly authToken: string,
+    public readonly repoFullName: string,
+  ) {}
 
   async uploadArtifact(file: stream.Readable, size: number, key: string, contentType: string): Promise<void> {
     const form = new FormData()
@@ -24,7 +29,7 @@ export class ArtifactApi {
       type: contentType,
     } as any)
 
-    await this.httpClient.post(urlJoin(this.apiRoot, 'artifact/file/', key), form)
+    await this.httpClient.post(urlJoin(this.apiRoot, 'artifact/file/', key), form, this.authToken)
   }
 
   async downloadArtifact(name: string): Promise<stream.Readable> {
@@ -32,6 +37,6 @@ export class ArtifactApi {
   }
 
   getArtifactUrl(name: string): string {
-    return urlJoin(this.apiRoot, 'artifact/file/', name)
+    return urlJoin(this.apiRoot, 'artifact/file/', this.repoFullName, name)
   }
 }

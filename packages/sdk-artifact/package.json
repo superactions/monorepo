@@ -27,5 +27,8 @@
     "mime-types": "^2.1.35",
     "node-fetch": "^3.2.5",
     "url-join": "^5.0.0"
+  },
+  "devDependencies": {
+    "tmp-promise": "^3.0.3"
   }
 }

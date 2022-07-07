@@ -1,7 +1,8 @@
 import { expect } from 'earljs'
-import { ReadStream } from 'fs'
-import { readFile, rm, writeFile } from 'fs/promises'
+import { ReadStream, writeFileSync } from 'fs'
+import { readFile } from 'fs/promises'
 import { Readable } from 'stream'
+import { setGracefulCleanup, withFile } from 'tmp-promise'
 
 import { mock } from './__test/mock'
 import { ArtifactClient } from './ArtifactClient'
@@ -9,26 +10,30 @@ import { ArtifactApi } from './networking/ArtifactApi'
 import { HttpClient } from './networking/HttpClient'
 
 const p = ArtifactClient.prototype
+setGracefulCleanup()
 
 describe(ArtifactClient.name, () => {
-  const fileFath = 'file.json'
   const value = { foo: 'bar' }
   const fileContent = JSON.stringify(value)
   const key = 'artifact-key'
 
   it(p.uploadFile.name, async () => {
-    await writeFile(fileFath, fileContent)
-    const mockArtifactsApi = mock<ArtifactApi>({
-      uploadArtifact: async () => undefined,
-    })
-    const artifactClient = new ArtifactClient(mockArtifactsApi)
+    await withFile(
+      async ({ fd, path }) => {
+        writeFileSync(fd, fileContent)
+        const mockArtifactsApi = mock<ArtifactApi>({
+          uploadArtifact: async () => undefined,
+        })
+        const artifactClient = new ArtifactClient(mockArtifactsApi)
 
-    await artifactClient.uploadFile(key, fileFath)
+        await artifactClient.uploadFile(key, path)
 
-    expect(mockArtifactsApi.uploadArtifact).toHaveBeenCalledExactlyWith([
-      [expect.a(ReadStream), fileContent.length, key, 'application/json'],
-    ])
-    await rm(fileFath)
+        expect(mockArtifactsApi.uploadArtifact).toHaveBeenCalledExactlyWith([
+          [expect.a(ReadStream), fileContent.length, key, 'application/json'],
+        ])
+      },
+      { postfix: '.json' },
+    )
   })
 
   it(p.uploadValue.name, async () => {
@@ -45,17 +50,21 @@ describe(ArtifactClient.name, () => {
   })
 
   it(p.downloadFile.name, async () => {
-    const mockArtifactsApi = mock<ArtifactApi>({
-      downloadArtifact: async () => Readable.from([fileContent]),
-    })
-    const artifactClient = new ArtifactClient(mockArtifactsApi)
+    await withFile(
+      async ({ path }) => {
+        const mockArtifactsApi = mock<ArtifactApi>({
+          downloadArtifact: async () => Readable.from([fileContent]),
+        })
+        const artifactClient = new ArtifactClient(mockArtifactsApi)
 
-    await artifactClient.downloadFile(key, fileFath)
+        await artifactClient.downloadFile(key, path)
 
-    const actualFileContent = await readFile(fileFath)
-    expect(actualFileContent.toString()).toEqual(fileContent)
-    expect(mockArtifactsApi.downloadArtifact).toHaveBeenCalledExactlyWith([[key]])
-    await rm(fileFath)
+        const actualFileContent = await readFile(path)
+        expect(actualFileContent.toString()).toEqual(fileContent)
+        expect(mockArtifactsApi.downloadArtifact).toHaveBeenCalledExactlyWith([[key]])
+      },
+      { postfix: '.json' },
+    )
   })
 
   it(p.downloadValue.name, async () => {

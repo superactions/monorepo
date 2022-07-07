@@ -8,13 +8,15 @@ import { ArtifactClient } from './ArtifactClient'
 import { ArtifactApi } from './networking/ArtifactApi'
 import { HttpClient } from './networking/HttpClient'
 
+const p = ArtifactClient.prototype
+
 describe(ArtifactClient.name, () => {
   const fileFath = 'file.json'
   const value = { foo: 'bar' }
   const fileContent = JSON.stringify(value)
   const key = 'artifact-key'
 
-  it('uploadFile', async () => {
+  it(p.uploadFile.name, async () => {
     await writeFile(fileFath, fileContent)
     const mockArtifactsApi = mock<ArtifactApi>({
       uploadArtifact: async () => undefined,
@@ -29,7 +31,7 @@ describe(ArtifactClient.name, () => {
     await rm(fileFath)
   })
 
-  it('uploadValue', async () => {
+  it(p.uploadValue.name, async () => {
     const mockArtifactsApi = mock<ArtifactApi>({
       uploadArtifact: async () => undefined,
     })
@@ -42,7 +44,7 @@ describe(ArtifactClient.name, () => {
     ])
   })
 
-  it('downloadFile', async () => {
+  it(p.downloadFile.name, async () => {
     const mockArtifactsApi = mock<ArtifactApi>({
       downloadArtifact: async () => Readable.from([fileContent]),
     })
@@ -56,7 +58,7 @@ describe(ArtifactClient.name, () => {
     await rm(fileFath)
   })
 
-  it('uploadValue', async () => {
+  it(p.downloadValue.name, async () => {
     const mockArtifactsApi = mock<ArtifactApi>({
       downloadArtifact: async () => Readable.from([fileContent]),
     })
@@ -68,7 +70,7 @@ describe(ArtifactClient.name, () => {
     expect(mockArtifactsApi.downloadArtifact).toHaveBeenCalledExactlyWith([[key]])
   })
 
-  it('getArtifactUrl', async () => {
+  it(p.getArtifactUrl.name, async () => {
     const apiRoot = 'https://localhost:0'
     const mockHttpClient = mock<HttpClient>({})
     const repoFullName = 'user1/repo1'

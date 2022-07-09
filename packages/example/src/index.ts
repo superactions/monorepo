@@ -40,16 +40,32 @@ async function main(): Promise<void> {
 }
 
 async function report(currentSize: number, previousSize?: number, diff?: number): Promise<void> {
-  const html = `
+  const index = `
+  <html>
+  <head>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
   <h1>Lockfile size report</h1>
   Current size: ${currentSize}</br>
   Previous size: ${previousSize ?? 'unknown'}</br>
   Diff: ${diff ?? 'unknown'}
+  </body>
+  </html>
   `
+  const styles = `
+  body {
+    font-family: "Lucida Console", "Courier New", monospace;
+    background-color: 0D0208;
+    color: #008F11;
+  }
+  `
+  writeFileSync('/tmp/index.html', index)
+  writeFileSync('/tmp/styles.css', styles)
+  await artifactClient.uploadFile('lockfile-report/index.html', '/tmp/index.html')
+  await artifactClient.uploadFile('lockfile-report/styles.css', '/tmp/styles.css')
 
-  writeFileSync('/tmp/index.html', html)
-  await artifactClient.uploadFile('lockfilesize.html', '/tmp/index.html')
-  const url = artifactClient.getPageUrl('', 'lockfilesize.html')
+  const url = artifactClient.getPageUrl('lockfile-report')
 
   const message = `Lockfile diff: \`${diff ?? 'unknown'}\`
 

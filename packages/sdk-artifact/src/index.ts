@@ -7,7 +7,7 @@ import { HttpClient } from './networking/HttpClient'
 import { PrArtifactClient } from './PrArtifactClient'
 
 const DEFAULT_API_ROOT = 'https://api.superactions.io/v1'
-const DEFAULT_ARTIFACT_PROXY_ROOT = 'https://artifact.superactions.io/v1'
+const DEFAULT_ARTIFACT_PROXY_ROOT = 'https://artifact.superactions.io'
 
 export function create({
   ghToken,

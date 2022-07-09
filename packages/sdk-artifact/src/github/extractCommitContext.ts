@@ -1,3 +1,4 @@
+// NOTE: All hashes are truncated to avoid issues with too long URLs
 export type CommitContext =
   | {
       event: 'pull-request'
@@ -22,8 +23,8 @@ export function extractCommitContext(event: any): CommitContext {
 
     return {
       event: 'pull-request',
-      baseSha,
-      headSha,
+      baseSha: baseSha.substring(0, 20),
+      headSha: headSha.substring(0, 20),
     }
   }
 
@@ -34,7 +35,7 @@ export function extractCommitContext(event: any): CommitContext {
     }
     return {
       event: 'push',
-      headSha,
+      headSha: headSha.substring(0, 20),
     }
   }
 

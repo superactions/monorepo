@@ -11,8 +11,8 @@ describe(extractCommitContext.name, () => {
 
     expect(context).toEqual({
       event: 'pull-request',
-      baseSha: '76347b2dbada2d1b0fbacd031dc9ccb925e18585',
-      headSha: '6ba41a4fc808534ef47f37ace7434feca9081db0',
+      baseSha: '76347b2dbada2d1b0fba',
+      headSha: '6ba41a4fc808534ef47f',
     })
   })
 
@@ -23,7 +23,7 @@ describe(extractCommitContext.name, () => {
 
     expect(context).toEqual({
       event: 'push',
-      headSha: 'f728831edb7fdee0db9361ab850bfebdbeca3987',
+      headSha: 'f728831edb7fdee0db93',
     })
   })
 })

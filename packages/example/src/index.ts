@@ -24,9 +24,8 @@ async function main(): Promise<void> {
   core.info('Uploading artifact')
   await artifactClient.uploadValue(artifactKey, { size })
 
+  core.info('Commit context: ' + JSON.stringify((artifactClient as any).artifactsApi.commitContext)) // log detailed data about execution
   if (context.eventName === 'pull_request') {
-    core.info('Running on PR')
-
     const baseArtifact = await artifactClient.downloadValue<SizeArtifact>(artifactKey)
     let diff: number | undefined
     if (baseArtifact) {

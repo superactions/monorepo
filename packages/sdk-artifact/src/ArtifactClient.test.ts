@@ -81,13 +81,27 @@ describe(ArtifactClient.name, () => {
 
   it(p.getArtifactUrl.name, async () => {
     const apiRoot = 'https://localhost:0'
+    const artifactProxyRoot = 'https://localhost:1'
     const mockHttpClient = mock<HttpClient>({})
     const repoFullName = 'user1/repo1'
-    const artifactApi = new ArtifactApi(mockHttpClient, apiRoot, '', repoFullName)
+    const artifactApi = new ArtifactApi(mockHttpClient, apiRoot, artifactProxyRoot, '', repoFullName)
     const artifactClient = new ArtifactClient(artifactApi)
 
     const actualArtifactUrl = artifactClient.getArtifactUrl(key)
 
-    expect(actualArtifactUrl).toEqual('https://localhost:0/artifact/file/user1/repo1/artifact-key')
+    expect(actualArtifactUrl).toEqual('https://localhost:1/user1/repo1/artifact-key')
+  })
+
+  it(p.getPageUrl.name, async () => {
+    const apiRoot = 'https://localhost:0'
+    const artifactProxyRoot = 'https://localhost:1'
+    const mockHttpClient = mock<HttpClient>({})
+    const repoFullName = 'user1/repo1'
+    const artifactApi = new ArtifactApi(mockHttpClient, apiRoot, artifactProxyRoot, '', repoFullName)
+    const artifactClient = new ArtifactClient(artifactApi)
+
+    const actualArtifactUrl = artifactClient.getPageUrl(key)
+
+    expect(actualArtifactUrl).toEqual('https://user1_repo1_artifact-key.localhost:1')
   })
 })

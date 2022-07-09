@@ -49,7 +49,7 @@ async function report(currentSize: number, previousSize?: number, diff?: number)
 
   writeFileSync('/tmp/index.html', html)
   await artifactClient.uploadFile('lockfilesize.html', '/tmp/index.html')
-  const url = artifactClient.getArtifactUrl('lockfilesize.html')
+  const url = artifactClient.getPageUrl('', 'lockfilesize.html')
 
   const message = `Lockfile diff: \`${diff ?? 'unknown'}\`
 

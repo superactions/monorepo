@@ -61,4 +61,14 @@ export class ArtifactClient {
   getArtifactUrl(key: string): string {
     return this.artifactsApi.getArtifactUrl(key)
   }
+
+  /**
+   * Returns ready to browse URL to a page ie. artifact that is supposed to be hosted from absolute path
+   * @param dirPath - Path to a directory containing artifact
+   * @param fileName - Artifact name, leave empty if you expect index.html
+   * @returns Page URL
+   */
+  getPageUrl(dirPath: string, fileName: string = ''): string {
+    return this.artifactsApi.getPageUrl(dirPath, fileName)
+  }
 }

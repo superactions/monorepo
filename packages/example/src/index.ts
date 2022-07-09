@@ -24,9 +24,8 @@ async function main(): Promise<void> {
   core.info('Uploading artifact')
   await artifactClient.uploadValue(artifactKey, { size })
 
+  core.info('Commit context: ' + JSON.stringify((artifactClient as any).artifactsApi.commitContext)) // log detailed data about execution
   if (context.eventName === 'pull_request') {
-    core.info('Running on PR')
-
     const baseArtifact = await artifactClient.downloadValue<SizeArtifact>(artifactKey)
     let diff: number | undefined
     if (baseArtifact) {
@@ -40,16 +39,32 @@ async function main(): Promise<void> {
 }
 
 async function report(currentSize: number, previousSize?: number, diff?: number): Promise<void> {
-  const html = `
+  const index = `
+  <html>
+  <head>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
   <h1>Lockfile size report</h1>
   Current size: ${currentSize}</br>
   Previous size: ${previousSize ?? 'unknown'}</br>
   Diff: ${diff ?? 'unknown'}
+  </body>
+  </html>
   `
+  const styles = `
+  body {
+    font-family: "Lucida Console", "Courier New", monospace;
+    background-color: 0D0208;
+    color: #008F11;
+  }
+  `
+  writeFileSync('/tmp/index.html', index)
+  writeFileSync('/tmp/styles.css', styles)
+  await artifactClient.uploadFile('lockfile-report/index.html', '/tmp/index.html')
+  await artifactClient.uploadFile('lockfile-report/styles.css', '/tmp/styles.css')
 
-  writeFileSync('/tmp/index.html', html)
-  await artifactClient.uploadFile('lockfilesize.html', '/tmp/index.html')
-  const url = artifactClient.getArtifactUrl('lockfilesize.html')
+  const url = artifactClient.getPageUrl('lockfile-report')
 
   const message = `Lockfile diff: \`${diff ?? 'unknown'}\`
 

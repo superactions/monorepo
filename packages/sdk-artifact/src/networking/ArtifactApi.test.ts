@@ -10,6 +10,7 @@ describe('ArtifactApi', () => {
   const fileStream = Readable.from(['input string'])
   const fileLength = 100
   const apiRoot = 'https://localhost:0'
+  const artifactProxyRoot = 'https://localhost:1'
   const authToken = 'USER1_REPO1'
   const repoFullName = 'user1/repo1'
 
@@ -19,7 +20,7 @@ describe('ArtifactApi', () => {
         status: 'created',
       }),
     })
-    const artifactApi = new ArtifactApi(mockHttpClient, apiRoot, authToken, repoFullName)
+    const artifactApi = new ArtifactApi(mockHttpClient, apiRoot, artifactProxyRoot, authToken, repoFullName)
 
     await artifactApi.uploadArtifact(fileStream, fileLength, 'some-path/image.jpg', 'image/jpeg')
 
@@ -29,27 +30,43 @@ describe('ArtifactApi', () => {
   })
 
   it('downloads artifact', async () => {
-    const apiRoot = 'https://localhost:0'
     const mockHttpClient = mock<HttpClient>({
       stream: async () => fileStream,
     })
-    const artifactApi = new ArtifactApi(mockHttpClient, apiRoot, authToken, repoFullName)
+    const artifactApi = new ArtifactApi(mockHttpClient, apiRoot, artifactProxyRoot, authToken, repoFullName)
 
     const actualFileStream = await artifactApi.downloadArtifact('some-path/image.jpg')
 
     expect(actualFileStream).toEqual(fileStream)
     expect(mockHttpClient.stream).toHaveBeenCalledExactlyWith([
-      [`https://localhost:0/artifact/file/${repoFullName}/some-path/image.jpg`],
+      [`https://localhost:1/${repoFullName}/some-path/image.jpg`],
     ])
   })
 
   it('returns artifact URL', async () => {
-    const apiRoot = 'https://localhost:0'
     const mockHttpClient = mock<HttpClient>({})
-    const artifactApi = new ArtifactApi(mockHttpClient, apiRoot, authToken, repoFullName)
+    const artifactApi = new ArtifactApi(mockHttpClient, apiRoot, artifactProxyRoot, authToken, repoFullName)
 
     const actualUrl = artifactApi.getArtifactUrl('deep/path/image.jpg')
 
-    expect(actualUrl).toEqual(`https://localhost:0/artifact/file/${repoFullName}/deep/path/image.jpg`)
+    expect(actualUrl).toEqual(`https://localhost:1/${repoFullName}/deep/path/image.jpg`)
+  })
+
+  it('returns page URL', async () => {
+    const mockHttpClient = mock<HttpClient>({})
+    const artifactApi = new ArtifactApi(mockHttpClient, apiRoot, artifactProxyRoot, authToken, repoFullName)
+
+    const actualUrl = artifactApi.getPageUrl('deep/path')
+
+    expect(actualUrl).toEqual(`https://user1_repo1_deep_path.localhost:1`)
+  })
+
+  it('returns page URL with custom fileName', async () => {
+    const mockHttpClient = mock<HttpClient>({})
+    const artifactApi = new ArtifactApi(mockHttpClient, apiRoot, artifactProxyRoot, authToken, repoFullName)
+
+    const actualUrl = artifactApi.getPageUrl('deep/path', 'alternative-index.html')
+
+    expect(actualUrl).toEqual(`https://user1_repo1_deep_path.localhost:1/alternative-index.html`)
   })
 })

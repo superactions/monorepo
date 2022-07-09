@@ -11,6 +11,7 @@ export class ArtifactApi {
   constructor(
     private readonly httpClient: HttpClient,
     public readonly apiRoot: string,
+    public readonly artifactProxyRoot: string,
     public readonly authToken: string,
     public readonly repoFullName: string,
   ) {}
@@ -37,6 +38,12 @@ export class ArtifactApi {
   }
 
   getArtifactUrl(name: string): string {
-    return urlJoin(this.apiRoot, 'artifact/file/', this.repoFullName, name)
+    return urlJoin(this.artifactProxyRoot, this.repoFullName, name)
+  }
+
+  getPageUrl(dirPath: string, fileName: string = ''): string {
+    const [protocol, urlWithoutProtocol] = this.artifactProxyRoot.split('://')
+    const subDomainsChain = [...this.repoFullName.split('/'), ...dirPath.split('/')]
+    return urlJoin(`${protocol}://${subDomainsChain.join('_')}.${urlWithoutProtocol}`, fileName)
   }
 }

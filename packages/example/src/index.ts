@@ -42,7 +42,7 @@ async function report(currentSize: number, previousSize?: number, diff?: number)
   const index = `
   <html>
   <head>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/styles.css">
   </head>
   <body>
   <h1>Lockfile size report</h1>

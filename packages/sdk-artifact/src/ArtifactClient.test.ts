@@ -1,8 +1,9 @@
 import { expect } from 'earljs'
-import { ReadStream, writeFileSync } from 'fs'
+import { mkdirSync, ReadStream, writeFileSync } from 'fs'
 import { readFile } from 'fs/promises'
+import { join } from 'path'
 import { Readable } from 'stream'
-import { setGracefulCleanup, withFile } from 'tmp-promise'
+import { dirSync, setGracefulCleanup, withFile } from 'tmp-promise'
 
 import { mock } from './__test/mock'
 import { ArtifactClient } from './ArtifactClient'
@@ -34,6 +35,26 @@ describe(ArtifactClient.name, () => {
       },
       { postfix: '.json' },
     )
+  })
+
+  it(p.uploadDirectory.name, async () => {
+    const { name: dir } = dirSync()
+    const body = JSON.stringify({ value: 'a' })
+    writeFileSync(join(dir, 'a.json'), body)
+    mkdirSync(join(dir, 'nested'))
+    writeFileSync(join(dir, 'nested/b.json'), body)
+
+    const mockArtifactsApi = mock<ArtifactApi>({
+      uploadArtifact: async () => undefined,
+    })
+    const artifactClient = new ArtifactClient(mockArtifactsApi)
+
+    await artifactClient.uploadDirectory(key, dir)
+
+    expect(mockArtifactsApi.uploadArtifact).toHaveBeenCalledExactlyWith([
+      [expect.a(ReadStream), body.length, 'artifact-key/a.json', 'application/json'],
+      [expect.a(ReadStream), body.length, 'artifact-key/nested/b.json', 'application/json'],
+    ])
   })
 
   it(p.uploadValue.name, async () => {

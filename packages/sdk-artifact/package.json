@@ -17,8 +17,7 @@
     "typecheck": "tsc --noEmit --incremental false --composite false",
     "clean": "rm -rf dist && rm -f tsconfig.build.tsbuildinfo",
     "test": "mocha --config ../../.mocharc.js",
-    "fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck",
-    "prepublishOnly": "pnpm lint && pnpm test && pnpm build"
+    "fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"
   },
   "dependencies": {
     "@actions/github": "^5.0.3",

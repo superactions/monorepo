@@ -1,5 +1,11 @@
 # @superactions/artifact
 
+## 0.1.4
+
+### Patch Changes
+
+- 128291a: Set default mime type
+
 ## 0.1.3
 
 ### Patch Changes

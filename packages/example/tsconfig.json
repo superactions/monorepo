@@ -1,8 +1,4 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["src"],
-  "compilerOptions": {
-    "esModuleInterop": true,
-    "skipLibCheck": true
-  }
+  "include": ["src"]
 }

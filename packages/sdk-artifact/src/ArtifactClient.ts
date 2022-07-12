@@ -4,7 +4,7 @@ import { promisify } from 'util'
 
 import { ArtifactApi } from './networking/ArtifactApi'
 const streamPipeline = promisify(pipeline)
-import glob from 'glob'
+import * as glob from 'glob'
 import { lookup } from 'mime-types'
 import { join, relative } from 'path'
 
@@ -21,7 +21,7 @@ export class ArtifactClient {
     const { size } = statSync(filePath)
     const fileStream = createReadStream(filePath)
     // @todo assert that contentType exists
-    const contentType = lookup(filePath) as any
+    const contentType = (lookup(filePath) as any) || 'text/plain'
 
     return await this.artifactsApi.uploadArtifact(fileStream, size, key, contentType)
   }

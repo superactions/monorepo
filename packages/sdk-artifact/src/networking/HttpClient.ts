@@ -1,5 +1,5 @@
 import fetch, { Response } from 'node-fetch'
-import stream from 'stream'
+import * as stream from 'stream'
 
 export class HttpClient {
   async post(url: string, body: any, authToken: string): Promise<{}> {

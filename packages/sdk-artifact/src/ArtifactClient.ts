@@ -21,7 +21,7 @@ export class ArtifactClient {
     const { size } = statSync(filePath)
     const fileStream = createReadStream(filePath)
     // @todo assert that contentType exists
-    const contentType = lookup(filePath) as any
+    const contentType = (lookup(filePath) as any) || 'text/plain'
 
     return await this.artifactsApi.uploadArtifact(fileStream, size, key, contentType)
   }

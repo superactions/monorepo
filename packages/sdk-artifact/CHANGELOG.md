@@ -1,5 +1,11 @@
 # @superactions/artifact
 
+## 0.1.3
+
+### Patch Changes
+
+- ee6307d: Fix typings
+
 ## 0.1.2
 
 ### Patch Changes

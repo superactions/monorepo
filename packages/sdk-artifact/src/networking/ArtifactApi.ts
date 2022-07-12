@@ -5,7 +5,7 @@ import urlJoin from 'url-join'
 import { HttpClient } from './HttpClient'
 
 /**
- * @internal class used to simplify communication with SuperActions Artifact API
+ * class used to simplify communication with SuperActions Artifact API
  */
 export class ArtifactApi {
   constructor(

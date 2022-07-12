@@ -4,7 +4,9 @@ import { promisify } from 'util'
 
 import { ArtifactApi } from './networking/ArtifactApi'
 const streamPipeline = promisify(pipeline)
+import glob from 'glob'
 import { lookup } from 'mime-types'
+import { join, relative } from 'path'
 
 /**
  * User facing class used for communication with SuperActions Artifact API.
@@ -22,6 +24,21 @@ export class ArtifactClient {
     const contentType = lookup(filePath) as any
 
     return await this.artifactsApi.uploadArtifact(fileStream, size, key, contentType)
+  }
+
+  async uploadDirectory(key: string, directoryPath: string): Promise<void> {
+    const allFiles = glob.sync(`${directoryPath}/**/*`, {
+      absolute: true,
+      follow: false,
+      nodir: true,
+    })
+
+    // @todo this could be executed in parallel
+    for (const absFilePath of allFiles) {
+      const relPath = relative(directoryPath, absFilePath)
+
+      await this.uploadFile(join(key, relPath), absFilePath)
+    }
   }
 
   async uploadValue(key: string, value: object): Promise<void> {

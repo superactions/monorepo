@@ -20,6 +20,8 @@ export class PrArtifactClient extends ArtifactClient {
     return super.uploadValue(join(this.commitContext.headSha, key), value)
   }
 
+  // no need to override uploadDirectory
+
   async downloadFile(key: string, destinationPath: string): Promise<void> {
     if (this.commitContext.event !== 'pull-request') {
       throw new Error("Can't find base branch!")

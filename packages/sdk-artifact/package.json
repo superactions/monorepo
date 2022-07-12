@@ -33,6 +33,7 @@
     "url-join": "^5.0.0"
   },
   "devDependencies": {
+    "@types/tmp": "^0.2.3",
     "tmp-promise": "^3.0.3"
   }
 }

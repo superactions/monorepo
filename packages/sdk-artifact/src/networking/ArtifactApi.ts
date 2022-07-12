@@ -1,5 +1,5 @@
 import { FormData } from 'formdata-polyfill/esm.min.js'
-import stream from 'stream'
+import * as stream from 'stream'
 import urlJoin from 'url-join'
 
 import { HttpClient } from './HttpClient'

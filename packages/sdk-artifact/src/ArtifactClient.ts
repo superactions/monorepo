@@ -4,7 +4,7 @@ import { promisify } from 'util'
 
 import { ArtifactApi } from './networking/ArtifactApi'
 const streamPipeline = promisify(pipeline)
-import glob from 'glob'
+import * as glob from 'glob'
 import { lookup } from 'mime-types'
 import { join, relative } from 'path'
 

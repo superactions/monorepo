@@ -1,5 +1,11 @@
 # @superactions/artifact
 
+## 0.1.5
+
+### Patch Changes
+
+- 05170b8: Directory upload is now parallel
+
 ## 0.1.4
 
 ### Patch Changes

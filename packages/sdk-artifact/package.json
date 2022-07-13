@@ -21,9 +21,11 @@
   },
   "dependencies": {
     "@actions/github": "^5.0.3",
+    "@types/bluebird": "^3.5.36",
     "@types/form-data": "^2.5.0",
     "@types/glob": "^7.2.0",
     "@types/mime-types": "^2.1.1",
+    "bluebird": "^3.7.2",
     "form-data": "^4.0.0",
     "formdata-polyfill": "^4.0.10",
     "glob": "^8.0.3",

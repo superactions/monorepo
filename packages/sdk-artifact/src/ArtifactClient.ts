@@ -4,9 +4,13 @@ import { promisify } from 'util'
 
 import { ArtifactApi } from './networking/ArtifactApi'
 const streamPipeline = promisify(pipeline)
+import { Promise as Bluebird } from 'bluebird'
 import * as glob from 'glob'
 import { lookup } from 'mime-types'
 import { join, relative } from 'path'
+
+// we limit concurrent connections to avoid DOSing our own backend
+const MAX_CONNECTIONS = 20
 
 /**
  * User facing class used for communication with SuperActions Artifact API.
@@ -33,12 +37,15 @@ export class ArtifactClient {
       nodir: true,
     })
 
-    // @todo this could be executed in parallel
-    for (const absFilePath of allFiles) {
-      const relPath = relative(directoryPath, absFilePath)
+    await Bluebird.map(
+      allFiles,
+      async (absFilePath) => {
+        const relPath = relative(directoryPath, absFilePath)
 
-      await this.uploadFile(join(key, relPath), absFilePath)
-    }
+        await this.uploadFile(join(key, relPath), absFilePath)
+      },
+      { concurrency: MAX_CONNECTIONS },
+    )
   }
 
   async uploadValue(key: string, value: object): Promise<void> {

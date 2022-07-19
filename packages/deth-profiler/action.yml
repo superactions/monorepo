@@ -4,6 +4,9 @@ author: 'SuperActions'
 inputs:
   token:
     default: ${{ github.token }}
+  project-path:
+    description: 'Absolute path to the hardhat project'
+    required: true
 runs:
   using: 'node16'
   main: 'dist/index.js'

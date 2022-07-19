@@ -8,7 +8,7 @@ import path from 'path'
 
 const context = github.context
 const token = core.getInput('token')
-const projectPath = core.getInput('projectPath')
+const projectPath = path.resolve(core.getInput('project-path'))
 const artifactClient = artifact.create({ ghToken: token })
 
 const artifactKeyPrefix = 'deth:profiler'

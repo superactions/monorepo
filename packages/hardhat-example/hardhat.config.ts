@@ -1,4 +1,5 @@
 import '@nomicfoundation/hardhat-toolbox'
+import '@deth-profiler/hardhat-plugin'
 
 import { HardhatUserConfig } from 'hardhat/config'
 

@@ -11,13 +11,13 @@ const token = core.getInput('token')
 const projectPath = path.resolve(core.getInput('project-path'))
 const artifactClient = artifact.create({ ghToken: token })
 
-const artifactKeyPrefix = 'deth:profiler'
+const artifactKeyPrefix = 'deth/profiler'
 const artifactKeys = {
   prefix: artifactKeyPrefix,
-  results: `${artifactKeyPrefix}:results`,
-  artifacts: `${artifactKeyPrefix}:artifacts`,
-  diff: `${artifactKeyPrefix}:diff`,
-  report: `${artifactKeyPrefix}:report`,
+  results: `${artifactKeyPrefix}/results`,
+  artifacts: `${artifactKeyPrefix}/artifacts`,
+  diff: `${artifactKeyPrefix}/diff`,
+  report: `${artifactKeyPrefix}/report`,
 }
 
 /**

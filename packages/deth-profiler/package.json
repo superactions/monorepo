@@ -5,7 +5,7 @@
   "license": "MIT",
   "main": "./src/index.ts",
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --outfile=dist/index.js --platform=node",
+    "build": "esbuild src/index.ts --bundle --outfile=dist/index.js --platform=node --define:BROWSER=true",
     "format": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --check \"./**/*.ts\"",
     "format:fix": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"./**/*.ts\"",
     "lint": "eslint --ext .ts src",

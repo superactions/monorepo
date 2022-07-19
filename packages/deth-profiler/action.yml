@@ -1,0 +1,9 @@
+name: 'Deth Solidity profiler'
+description: 'Advance Solidity profiler that is able to generate diffs and produce deterministic results'
+author: 'SuperActions'
+inputs:
+  token:
+    default: ${{ github.token }}
+runs:
+  using: 'node16'
+  main: 'dist/index.js'

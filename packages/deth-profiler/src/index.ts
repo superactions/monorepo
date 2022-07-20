@@ -57,7 +57,11 @@ async function main(): Promise<void> {
   }
 
   core.info('Generating html report')
-  await generateHtmlReport(artifactKeys.report, viewReportHydrationData, diffReportHydrationData)
+  await generateHtmlReport(
+    path.join(projectPath, LAYOUT.REPORT_FOLDER),
+    viewReportHydrationData,
+    diffReportHydrationData,
+  )
 
   core.info('Uploading html report')
   await artifactClient.uploadDirectory(artifactKeys.report, path.join(projectPath, LAYOUT.REPORT_FOLDER))

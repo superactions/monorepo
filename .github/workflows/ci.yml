@@ -31,6 +31,8 @@ jobs:
         uses: ./packages/deth-profiler
         with:
           project-path: ./packages/hardhat-example
+        env:
+          DEBUG: deth:*
       - run: pnpm typecheck
       - run: pnpm lint
       - run: pnpm format

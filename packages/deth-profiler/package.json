@@ -5,7 +5,7 @@
   "license": "MIT",
   "main": "./src/index.ts",
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --outfile=dist/index.js --platform=node --define:BROWSER=true",
+    "build": "ts-node ./esbuild.ts",
     "format": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --check \"./**/*.ts\"",
     "format:fix": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"./**/*.ts\"",
     "lint": "eslint --ext .ts src",
@@ -23,5 +23,9 @@
     "@deth-profiler/profiler": "^0.1.8",
     "@superactions/artifact": "workspace:^0.1.5",
     "@superactions/comment": "workspace:^0.1.1"
+  },
+  "devDependencies": {
+    "esbuild-plugin-fileloc": "^0.0.6",
+    "ts-node": "^10.9.1"
   }
 }

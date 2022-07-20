@@ -49,7 +49,7 @@ importers:
       '@actions/core': ^1.9.0
       '@actions/github': ^5.0.3
       '@deth-profiler/common': ^0.1.3
-      '@deth-profiler/profiler': ^0.1.14
+      '@deth-profiler/profiler': ^0.1.15
       '@superactions/artifact': workspace:^0.1.5
       '@superactions/comment': workspace:^0.1.1
       esbuild-plugin-fileloc: ^0.0.6
@@ -58,7 +58,7 @@ importers:
       '@actions/core': 1.9.0
       '@actions/github': 5.0.3
       '@deth-profiler/common': 0.1.3_ts-node@10.9.1
-      '@deth-profiler/profiler': 0.1.14_ts-node@10.9.1
+      '@deth-profiler/profiler': 0.1.15_ts-node@10.9.1
       '@superactions/artifact': link:../sdk-artifact
       '@superactions/comment': link:../sdk-comment
     devDependencies:
@@ -623,8 +623,8 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@deth-profiler/profiler/0.1.14_ts-node@10.9.1:
-    resolution: {integrity: sha512-VzwMhQFL37Ia5fhneZrOLvrKeL0jC2Aizxb0jyt+Pj9v7wzkEw9TEPEsAGQU0trpI2YefWWe07SB6+qiO63Imw==}
+  /@deth-profiler/profiler/0.1.15_ts-node@10.9.1:
+    resolution: {integrity: sha512-AGGt82DymLVebrYmT+Y4AsTmGrfhNioIeOtO+YmlIDvhKxDjqpVK4+jXevNk7CWLn4JsPfUHNYskG3Ty/k7FPA==}
     dependencies:
       '@deth-profiler/client-local': 0.1.3_ts-node@10.9.1
       '@deth-profiler/common': 0.1.3_ts-node@10.9.1

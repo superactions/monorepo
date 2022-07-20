@@ -19,9 +19,9 @@
   "dependencies": {
     "@actions/core": "^1.9.0",
     "@actions/github": "^5.0.3",
-    "@deth-profiler/common": "^0.1.2",
-    "@deth-profiler/profiler": "^0.1.4",
-    "@superactions/artifact": "workspace:^0.1.0",
-    "@superactions/comment": "workspace:^0.1.0"
+    "@deth-profiler/common": "^0.1.3",
+    "@deth-profiler/profiler": "^0.1.8",
+    "@superactions/artifact": "workspace:^0.1.5",
+    "@superactions/comment": "workspace:^0.1.1"
   }
 }

@@ -79,7 +79,7 @@ importers:
 
   packages/hardhat-example:
     specifiers:
-      '@deth-profiler/hardhat-plugin': ^0.1.13
+      '@deth-profiler/hardhat-plugin': ^0.1.15
       '@ethersproject/abi': ^5.6.4
       '@ethersproject/bytes': ^5.6.1
       '@ethersproject/providers': ^5.6.8
@@ -102,7 +102,7 @@ importers:
       typechain: ^8.1.0
       typescript: ^4.7.4
     devDependencies:
-      '@deth-profiler/hardhat-plugin': 0.1.13_sxbisfziznarv4fvlahibwnspm
+      '@deth-profiler/hardhat-plugin': 0.1.15_sxbisfziznarv4fvlahibwnspm
       '@ethersproject/abi': 5.6.4
       '@ethersproject/bytes': 5.6.1
       '@ethersproject/providers': 5.6.8
@@ -562,13 +562,13 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@deth-profiler/hardhat-plugin/0.1.13_sxbisfziznarv4fvlahibwnspm:
-    resolution: {integrity: sha512-U5oLjtggjrBoxt1qhXfhc1PaFr4X2TTYuzYkNqDvvhr8JeKryFG0iNo3572DVNrVt+Un9wKx3Aj0uInMOkeZZg==}
+  /@deth-profiler/hardhat-plugin/0.1.15_sxbisfziznarv4fvlahibwnspm:
+    resolution: {integrity: sha512-nKNHZ6mUy9+5DbgCjn8ZZdBQvelQOQf11Jkyxnjgfq9dowpdwZCms9ayxLbPzoxnbIbLu343gfVFLD9CANFC0A==}
     peerDependencies:
       hardhat: ^2.9.3
     dependencies:
       '@deth-profiler/common': 0.1.3_6oasmw356qmm23djlsjgkwvrtm
-      '@deth-profiler/profiler': 0.1.13_6oasmw356qmm23djlsjgkwvrtm
+      '@deth-profiler/profiler': 0.1.15_6oasmw356qmm23djlsjgkwvrtm
       '@ethereumjs/common': 2.6.5
       '@ethersproject/abstract-provider': 5.6.1
       '@ethersproject/bytes': 5.6.1
@@ -595,8 +595,8 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@deth-profiler/profiler/0.1.13_6oasmw356qmm23djlsjgkwvrtm:
-    resolution: {integrity: sha512-JujCgXv5gjt9bSB7E4Wr2apgo2hzQB3Z/iZRtM0X0wygC5Qdpslr7GuqjPOPBKk9RjPYUuj4EziXmg9HdLwElw==}
+  /@deth-profiler/profiler/0.1.15_6oasmw356qmm23djlsjgkwvrtm:
+    resolution: {integrity: sha512-AGGt82DymLVebrYmT+Y4AsTmGrfhNioIeOtO+YmlIDvhKxDjqpVK4+jXevNk7CWLn4JsPfUHNYskG3Ty/k7FPA==}
     dependencies:
       '@deth-profiler/client-local': 0.1.3_6oasmw356qmm23djlsjgkwvrtm
       '@deth-profiler/common': 0.1.3_6oasmw356qmm23djlsjgkwvrtm
@@ -1665,12 +1665,12 @@ packages:
   /@types/bn.js/4.11.6:
     resolution: {integrity: sha512-pqr857jrp2kPuO9uRjZ3PwnJTjoQy+fcdxvBTvHm6dkmEL9q+hDD/2j/0ELOBPtPnS8LjCX0gI9nbl8lVkadpg==}
     dependencies:
-      '@types/node': 18.0.6
+      '@types/node': 17.0.45
 
   /@types/bn.js/5.1.0:
     resolution: {integrity: sha512-QSSVYj7pYFN49kW77o2s9xTCwZ8F2xLbjLLSEVh8D2F4JUhZtPAGOFLTD+ffqksBx/u4cE/KImFjyhqCjn/LIA==}
     dependencies:
-      '@types/node': 18.0.6
+      '@types/node': 17.0.45
 
   /@types/cacheable-request/6.0.2:
     resolution: {integrity: sha512-B3xVo+dlKM6nnKTcmm5ZtY/OL8bOAOd2Olee9M1zft65ox50OzjEHW91sDiU9j6cvW8Ejg1/Qkf4xd2kugApUA==}
@@ -1773,7 +1773,7 @@ packages:
     dependencies:
       '@types/abstract-leveldown': 7.2.0
       '@types/level-errors': 3.0.0
-      '@types/node': 18.0.6
+      '@types/node': 17.0.45
 
   /@types/lru-cache/5.1.1:
     resolution: {integrity: sha512-ssE3Vlrys7sdIzs5LOxCzTVMsU7i9oa/IaW92wF32JFb3CVczqOkru2xspuKczHEbG3nvmPY7IFqVmGGHdNbYw==}
@@ -1807,9 +1807,6 @@ packages:
   /@types/node/17.0.45:
     resolution: {integrity: sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==}
 
-  /@types/node/18.0.6:
-    resolution: {integrity: sha512-/xUq6H2aQm261exT6iZTMifUySEt4GR5KX8eYyY+C4MSNPqSh9oNIP7tz2GLKTlFaiBbgZNxffoR3CVRG+cljw==}
-
   /@types/node/8.10.66:
     resolution: {integrity: sha512-tktOkFUA4kXx2hhhrB8bIFb5TbwzS4uOhKEmwiD+NoiL0qtP2OQ9mFldbgD4dV1djrlBYP6eBuQZiWjuHUpqFw==}
     dev: true
@@ -1821,7 +1818,7 @@ packages:
   /@types/pbkdf2/3.1.0:
     resolution: {integrity: sha512-Cf63Rv7jCQ0LaL8tNXmEyqTHuIJxRdlS5vMh1mj5voN4+QFhVZnlZruezqpWYDiJ8UTzhP0VmeLXCmBk66YrMQ==}
     dependencies:
-      '@types/node': 18.0.6
+      '@types/node': 17.0.45
 
   /@types/prettier/2.6.1:
     resolution: {integrity: sha512-XFjFHmaLVifrAKaZ+EKghFHtHSUonyw8P2Qmy2/+osBnrKbH9UYtlK10zg8/kCt47MFilll/DEDKy3DHfJ0URw==}
@@ -1843,7 +1840,7 @@ packages:
   /@types/secp256k1/4.0.3:
     resolution: {integrity: sha512-Da66lEIFeIz9ltsdMZcpQvmrmmoqrfju8pm1BH8WbYjZSwUgCwXLb9C+9XYogwBITnbsSaMdVPb2ekf7TV+03w==}
     dependencies:
-      '@types/node': 18.0.6
+      '@types/node': 17.0.45
 
   /@types/semver/6.2.3:
     resolution: {integrity: sha512-KQf+QAMWKMrtBMsB8/24w53tEsxllMj6TuA80TT/5igJalLI/zm0L3oXRbIAl4Ohfc85gyHX/jhMwsVkmhLU4A==}

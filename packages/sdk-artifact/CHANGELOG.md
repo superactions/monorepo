@@ -1,5 +1,11 @@
 # @superactions/artifact
 
+## 0.1.7
+
+### Patch Changes
+
+- cfb4003: Decrease max connections
+
 ## 0.1.6
 
 ### Patch Changes

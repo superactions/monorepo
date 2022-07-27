@@ -10,7 +10,7 @@ import { lookup } from 'mime-types'
 import { join, relative } from 'path'
 
 // we limit concurrent connections to avoid DOSing our own backend
-const MAX_CONNECTIONS = 30
+const MAX_CONNECTIONS = 15
 
 /**
  * User facing class used for communication with SuperActions Artifact API.

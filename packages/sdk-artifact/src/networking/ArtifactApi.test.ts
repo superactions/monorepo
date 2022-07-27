@@ -29,6 +29,21 @@ describe('ArtifactApi', () => {
     ])
   })
 
+  it('uploads artifact with a name with special characters', async () => {
+    const mockHttpClient = mock<HttpClient>({
+      post: async () => ({
+        status: 'created',
+      }),
+    })
+    const artifactApi = new ArtifactApi(mockHttpClient, apiRoot, artifactProxyRoot, authToken, repoFullName)
+
+    await artifactApi.uploadArtifact(fileStream, fileLength, 'some-path/image%1 .jpg', 'image/jpeg')
+
+    expect(mockHttpClient.post).toHaveBeenCalledExactlyWith([
+      ['https://localhost:0/artifact/file/some-path/image%251%20.jpg', expect.a(FormData), authToken],
+    ])
+  })
+
   it('downloads artifact', async () => {
     const mockHttpClient = mock<HttpClient>({
       stream: async () => fileStream,
@@ -40,6 +55,20 @@ describe('ArtifactApi', () => {
     expect(actualFileStream).toEqual(fileStream)
     expect(mockHttpClient.stream).toHaveBeenCalledExactlyWith([
       [`https://localhost:1/${repoFullName}/some-path/image.jpg`],
+    ])
+  })
+
+  it('downloads artifact with special characters', async () => {
+    const mockHttpClient = mock<HttpClient>({
+      stream: async () => fileStream,
+    })
+    const artifactApi = new ArtifactApi(mockHttpClient, apiRoot, artifactProxyRoot, authToken, repoFullName)
+
+    const actualFileStream = await artifactApi.downloadArtifact('some-path/image%1 .jpg')
+
+    expect(actualFileStream).toEqual(fileStream)
+    expect(mockHttpClient.stream).toHaveBeenCalledExactlyWith([
+      [`https://localhost:1/${repoFullName}/some-path/image%251%20.jpg`],
     ])
   })
 

@@ -58,6 +58,20 @@ describe('ArtifactApi', () => {
     ])
   })
 
+  it('downloads artifact with special characters', async () => {
+    const mockHttpClient = mock<HttpClient>({
+      stream: async () => fileStream,
+    })
+    const artifactApi = new ArtifactApi(mockHttpClient, apiRoot, artifactProxyRoot, authToken, repoFullName)
+
+    const actualFileStream = await artifactApi.downloadArtifact('some-path/image%1 .jpg')
+
+    expect(actualFileStream).toEqual(fileStream)
+    expect(mockHttpClient.stream).toHaveBeenCalledExactlyWith([
+      [`https://localhost:1/${repoFullName}/some-path/image%251%20.jpg`],
+    ])
+  })
+
   it('returns artifact URL', async () => {
     const mockHttpClient = mock<HttpClient>({})
     const artifactApi = new ArtifactApi(mockHttpClient, apiRoot, artifactProxyRoot, authToken, repoFullName)

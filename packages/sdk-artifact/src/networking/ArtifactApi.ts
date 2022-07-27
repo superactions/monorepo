@@ -30,9 +30,8 @@ export class ArtifactApi {
       type: contentType,
     } as any)
 
-    const pathWithSpecialCharsEscaped = key.split('/').map(encodeURIComponent).join('/')
     await this.httpClient.post(
-      urlJoin(this.apiRoot, 'artifact/file/', pathWithSpecialCharsEscaped),
+      urlJoin(this.apiRoot, 'artifact/file/', escapeSpecialCharsFromPath(key)),
       form,
       this.authToken,
     )
@@ -43,7 +42,7 @@ export class ArtifactApi {
   }
 
   getArtifactUrl(name: string): string {
-    return urlJoin(this.artifactProxyRoot, this.repoFullName, name)
+    return urlJoin(this.artifactProxyRoot, this.repoFullName, escapeSpecialCharsFromPath(name))
   }
 
   getPageUrl(dirPath: string, fileName: string = ''): string {
@@ -51,4 +50,8 @@ export class ArtifactApi {
     const subDomainsChain = [...this.repoFullName.split('/'), ...dirPath.split('/')]
     return urlJoin(`${protocol}://${subDomainsChain.join('_')}.${urlWithoutProtocol}`, fileName)
   }
+}
+
+function escapeSpecialCharsFromPath(key: string): string {
+  return key.split('/').map(encodeURIComponent).join('/')
 }

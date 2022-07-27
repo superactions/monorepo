@@ -1,4 +1,4 @@
-import { createReadStream, createWriteStream, readFileSync, statSync, writeFileSync } from 'fs'
+import { createReadStream, createWriteStream, readFileSync, ReadStream, statSync, writeFileSync } from 'fs'
 import { pipeline } from 'stream'
 import { promisify } from 'util'
 
@@ -10,7 +10,7 @@ import { lookup } from 'mime-types'
 import { join, relative } from 'path'
 
 // we limit concurrent connections to avoid DOSing our own backend
-const MAX_CONNECTIONS = 30
+const MAX_CONNECTIONS = 20
 
 /**
  * User facing class used for communication with SuperActions Artifact API.
@@ -23,11 +23,11 @@ export class ArtifactClient {
     // @todo: ensure that filepath is absolute
     // @todo: support passing file as stream or buffer
     const { size } = statSync(filePath)
-    const fileStream = createReadStream(filePath)
+    const makeFileStream = (): ReadStream => createReadStream(filePath)
     // @todo assert that contentType exists
     const contentType = (lookup(filePath) as any) || 'text/plain'
 
-    return await this.artifactsApi.uploadArtifact(fileStream, size, key, contentType)
+    return await this.artifactsApi.uploadArtifact(makeFileStream, size, key, contentType)
   }
 
   async uploadDirectory(key: string, directoryPath: string): Promise<void> {

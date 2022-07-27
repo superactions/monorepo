@@ -1,20 +1,26 @@
+import * as core from '@actions/core'
 import { delay } from 'bluebird'
 import fetch, { Response } from 'node-fetch'
 import * as stream from 'stream'
 
 export class HttpClient {
-  async post(url: string, body: any, authToken: string): Promise<{}> {
+  // note: we require function returning body to make retry work with streams etc.
+  async post(url: string, bodyFn: () => any, authToken: string): Promise<{}> {
     return await retry(async () => {
+      core.debug(`Calling: ${url}`)
       const response = await fetch(url, {
         method: 'POST',
-        body,
+        body: bodyFn(),
         headers: {
           authorization: authToken,
         },
       })
       await handleFailures(response)
+      const responseJson = (await response.json()) as any
 
-      return (await response.json()) as any
+      core.debug(`Successfully called ${url}`)
+
+      return responseJson
     })
   }
 
@@ -45,10 +51,15 @@ async function retry<T>(asyncFn: () => Promise<T>, retryNo = 5, retryDelay = 100
   while (remainingRetries-- > 0) {
     try {
       return await asyncFn()
-    } catch (e) {
+    } catch (e: any) {
+      core.warning(`Failed with ${e.message}`)
       lastError = e
 
-      await delay(retryDelay)
+      const randomizeDelay = Math.random() * retryDelay + 0.5 * retryDelay // randomize delay
+      const backOffDelay = randomizeDelay * (retryNo - remainingRetries) // the more failures the more delay
+      core.warning(`Retry in ${backOffDelay}!`)
+
+      await delay(backOffDelay)
     }
   }
 

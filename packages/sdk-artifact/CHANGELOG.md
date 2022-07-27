@@ -1,5 +1,11 @@
 # @superactions/artifact
 
+## 0.1.8
+
+### Patch Changes
+
+- a334bd8: Add retry on failures
+
 ## 0.1.7
 
 ### Patch Changes

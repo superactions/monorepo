@@ -1,5 +1,11 @@
 # @superactions/artifact
 
+## 0.1.6
+
+### Patch Changes
+
+- 00a8751: Fix handling for filenames with special characters
+
 ## 0.1.5
 
 ### Patch Changes

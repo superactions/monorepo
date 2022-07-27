@@ -30,7 +30,12 @@ export class ArtifactApi {
       type: contentType,
     } as any)
 
-    await this.httpClient.post(urlJoin(this.apiRoot, 'artifact/file/', key), form, this.authToken)
+    const pathWithSpecialCharsEscaped = key.split('/').map(encodeURIComponent).join('/')
+    await this.httpClient.post(
+      urlJoin(this.apiRoot, 'artifact/file/', pathWithSpecialCharsEscaped),
+      form,
+      this.authToken,
+    )
   }
 
   async downloadArtifact(name: string): Promise<stream.Readable> {

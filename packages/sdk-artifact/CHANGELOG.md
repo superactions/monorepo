@@ -1,5 +1,11 @@
 # @superactions/artifact
 
+## 0.1.9
+
+### Patch Changes
+
+- c03fd59: Add proper retry strategy
+
 ## 0.1.8
 
 ### Patch Changes

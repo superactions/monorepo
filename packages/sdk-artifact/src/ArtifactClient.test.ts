@@ -1,5 +1,5 @@
 import { expect } from 'earljs'
-import { mkdirSync, ReadStream, writeFileSync } from 'fs'
+import { mkdirSync, writeFileSync } from 'fs'
 import { readFile } from 'fs/promises'
 import { join } from 'path'
 import { Readable } from 'stream'
@@ -30,7 +30,7 @@ describe(ArtifactClient.name, () => {
         await artifactClient.uploadFile(key, path)
 
         expect(mockArtifactsApi.uploadArtifact).toHaveBeenCalledExactlyWith([
-          [expect.a(ReadStream), fileContent.length, key, 'application/json'],
+          [expect.a(Function), fileContent.length, key, 'application/json'],
         ])
       },
       { postfix: '.json' },
@@ -52,8 +52,8 @@ describe(ArtifactClient.name, () => {
     await artifactClient.uploadDirectory(key, dir)
 
     expect(mockArtifactsApi.uploadArtifact).toHaveBeenCalledExactlyWith([
-      [expect.a(ReadStream), body.length, 'artifact-key/a.json', 'application/json'],
-      [expect.a(ReadStream), body.length, 'artifact-key/nested/b.json', 'application/json'],
+      [expect.a(Function), body.length, 'artifact-key/a.json', 'application/json'],
+      [expect.a(Function), body.length, 'artifact-key/nested/b.json', 'application/json'],
     ])
   })
 
@@ -66,7 +66,7 @@ describe(ArtifactClient.name, () => {
     await artifactClient.uploadValue(key, value)
 
     expect(mockArtifactsApi.uploadArtifact).toHaveBeenCalledExactlyWith([
-      [expect.a(ReadStream), fileContent.length, key, 'application/json'],
+      [expect.a(Function), fileContent.length, key, 'application/json'],
     ])
   })
 

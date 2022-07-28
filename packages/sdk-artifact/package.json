@@ -20,6 +20,7 @@
     "fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"
   },
   "dependencies": {
+    "@actions/core": "^1.8.2",
     "@actions/github": "^5.0.3",
     "@types/bluebird": "^3.5.36",
     "@types/form-data": "^2.5.0",

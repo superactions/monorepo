@@ -1,5 +1,4 @@
 import { expect } from 'earljs'
-import { FormData } from 'formdata-polyfill/esm.min'
 import { Readable } from 'stream'
 
 import { mock } from '../__test/mock'
@@ -7,7 +6,7 @@ import { ArtifactApi } from './ArtifactApi'
 import { HttpClient } from './HttpClient'
 
 describe('ArtifactApi', () => {
-  const fileStream = Readable.from(['input string'])
+  const makeFileStream = (): Readable => Readable.from(['input string'])
   const fileLength = 100
   const apiRoot = 'https://localhost:0'
   const artifactProxyRoot = 'https://localhost:1'
@@ -22,10 +21,10 @@ describe('ArtifactApi', () => {
     })
     const artifactApi = new ArtifactApi(mockHttpClient, apiRoot, artifactProxyRoot, authToken, repoFullName)
 
-    await artifactApi.uploadArtifact(fileStream, fileLength, 'some-path/image.jpg', 'image/jpeg')
+    await artifactApi.uploadArtifact(makeFileStream, fileLength, 'some-path/image.jpg', 'image/jpeg')
 
     expect(mockHttpClient.post).toHaveBeenCalledExactlyWith([
-      ['https://localhost:0/artifact/file/some-path/image.jpg', expect.a(FormData), authToken],
+      ['https://localhost:0/artifact/file/some-path/image.jpg', expect.a(Function), authToken],
     ])
   })
 
@@ -37,22 +36,22 @@ describe('ArtifactApi', () => {
     })
     const artifactApi = new ArtifactApi(mockHttpClient, apiRoot, artifactProxyRoot, authToken, repoFullName)
 
-    await artifactApi.uploadArtifact(fileStream, fileLength, 'some-path/image%1 .jpg', 'image/jpeg')
+    await artifactApi.uploadArtifact(makeFileStream, fileLength, 'some-path/image%1 .jpg', 'image/jpeg')
 
     expect(mockHttpClient.post).toHaveBeenCalledExactlyWith([
-      ['https://localhost:0/artifact/file/some-path/image%251%20.jpg', expect.a(FormData), authToken],
+      ['https://localhost:0/artifact/file/some-path/image%251%20.jpg', expect.a(Function), authToken],
     ])
   })
 
   it('downloads artifact', async () => {
     const mockHttpClient = mock<HttpClient>({
-      stream: async () => fileStream,
+      stream: async () => makeFileStream(),
     })
     const artifactApi = new ArtifactApi(mockHttpClient, apiRoot, artifactProxyRoot, authToken, repoFullName)
 
     const actualFileStream = await artifactApi.downloadArtifact('some-path/image.jpg')
 
-    expect(actualFileStream).toEqual(fileStream)
+    expect(await streamToString(actualFileStream)).toEqual(await streamToString(makeFileStream()))
     expect(mockHttpClient.stream).toHaveBeenCalledExactlyWith([
       [`https://localhost:1/${repoFullName}/some-path/image.jpg`],
     ])
@@ -60,13 +59,13 @@ describe('ArtifactApi', () => {
 
   it('downloads artifact with special characters', async () => {
     const mockHttpClient = mock<HttpClient>({
-      stream: async () => fileStream,
+      stream: async (): Promise<Readable> => makeFileStream(),
     })
     const artifactApi = new ArtifactApi(mockHttpClient, apiRoot, artifactProxyRoot, authToken, repoFullName)
 
     const actualFileStream = await artifactApi.downloadArtifact('some-path/image%1 .jpg')
 
-    expect(actualFileStream).toEqual(fileStream)
+    expect(await streamToString(actualFileStream)).toEqual(await streamToString(makeFileStream()))
     expect(mockHttpClient.stream).toHaveBeenCalledExactlyWith([
       [`https://localhost:1/${repoFullName}/some-path/image%251%20.jpg`],
     ])
@@ -99,3 +98,12 @@ describe('ArtifactApi', () => {
     expect(actualUrl).toEqual(`https://user1_repo1_deep_path.localhost:1/alternative-index.html`)
   })
 })
+
+function streamToString(stream: Readable): Promise<string> {
+  const chunks = [] as any
+  return new Promise((resolve, reject) => {
+    stream.on('data', (chunk) => chunks.push(Buffer.from(chunk)))
+    stream.on('error', (err) => reject(err))
+    stream.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')))
+  })
+}

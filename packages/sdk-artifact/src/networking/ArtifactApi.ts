@@ -16,23 +16,27 @@ export class ArtifactApi {
     public readonly repoFullName: string,
   ) {}
 
-  async uploadArtifact(file: stream.Readable, size: number, key: string, contentType: string): Promise<void> {
-    const form = new FormData()
+  async uploadArtifact(file: () => stream.Readable, size: number, key: string, contentType: string): Promise<void> {
+    function makeBody(): FormData {
+      const form = new FormData()
 
-    // we need stream size to be able to send is as formdata: https://github.com/jimmywarting/FormData/issues/138
-    form.append('file', {
-      [Symbol.toStringTag]: 'File',
-      size: size,
-      name: 'foo.txt',
-      stream() {
-        return file
-      },
-      type: contentType,
-    } as any)
+      // we need stream size to be able to send is as formdata: https://github.com/jimmywarting/FormData/issues/138
+      form.append('file', {
+        [Symbol.toStringTag]: 'File',
+        size: size,
+        name: 'foo.txt',
+        stream() {
+          return file()
+        },
+        type: contentType,
+      } as any)
+
+      return form
+    }
 
     await this.httpClient.post(
       urlJoin(this.apiRoot, 'artifact/file/', escapeSpecialCharsFromPath(key)),
-      form,
+      makeBody,
       this.authToken,
     )
   }

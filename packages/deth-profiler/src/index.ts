@@ -47,8 +47,6 @@ async function main(): Promise<void> {
 
       const diffResults = diffByTestProfilingResults(baseResults.byTest, results.byTest)
       core.info('Uploading diff results')
-      // eslint-disable-next-line no-console
-      console.log(JSON.stringify(diffResults, null, 2))
       await artifactClient.uploadValue(artifactKeys.diff, diffResults)
       core.info(`${artifactClient.getArtifactUrl(artifactKeys.diff)}`)
 

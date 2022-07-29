@@ -25,13 +25,17 @@ jobs:
           cache: 'pnpm'
 
       - run: pnpm install
-
+      - run: pnpm build
+      - run: pnpm test
+      - name: Solidity Profiler
+        uses: ./packages/deth-profiler
+        with:
+          project-path: ./packages/hardhat-example
+        env:
+          DEBUG: deth:*
+      - run: pnpm typecheck
       - run: pnpm lint
       - run: pnpm format
-      - run: pnpm build
-
-      - run: pnpm test
-      - run: pnpm typecheck
 
   run-example:
     needs: test
@@ -56,3 +60,4 @@ jobs:
       - run: pnpm build
 
       - uses: ./packages/example
+

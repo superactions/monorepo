@@ -29,8 +29,11 @@ async function main(): Promise<void> {
 
   core.info('Uploading results')
   await artifactClient.uploadValue(artifactKeys.results, results)
+  core.info(`${artifactClient.getArtifactUrl(artifactKeys.results)}`)
+
   core.info('Uploading artifacts')
   await artifactClient.uploadValue(artifactKeys.artifacts, artifacts)
+  core.info(`${artifactClient.getArtifactUrl(artifactKeys.artifacts)}`)
 
   const viewReportHydrationData = { results: results.byTest, sourceCodes: artifacts }
   let diffReportHydrationData
@@ -45,16 +48,22 @@ async function main(): Promise<void> {
       const diffResults = diffByTestProfilingResults(baseResults.byTest, results.byTest)
       core.info('Uploading diff results')
       await artifactClient.uploadValue(artifactKeys.diff, diffResults)
+      core.info(`${artifactClient.getArtifactUrl(artifactKeys.diff)}`)
 
       diffReportHydrationData = { diff: diffResults, sourceCodes: artifacts }
     }
   }
 
   core.info('Generating html report')
-  await generateHtmlReport(artifactKeys.report, viewReportHydrationData, diffReportHydrationData)
+  await generateHtmlReport(
+    path.join(projectPath, LAYOUT.REPORT_FOLDER),
+    viewReportHydrationData,
+    diffReportHydrationData,
+  )
 
   core.info('Uploading html report')
   await artifactClient.uploadDirectory(artifactKeys.report, path.join(projectPath, LAYOUT.REPORT_FOLDER))
+  core.info(`${artifactClient.getPageUrl(artifactKeys.report)}`)
 
   const url = artifactClient.getPageUrl(artifactKeys.report)
   let message = `[Profiling Report](${url}/view.html)`

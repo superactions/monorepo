@@ -2,3 +2,5 @@ node_modules
 .vscode
 package.json
 **/dist/**
+.deth-profiler
+typechain-types

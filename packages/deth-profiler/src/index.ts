@@ -71,12 +71,14 @@ async function main(): Promise<void> {
     message += `\n[Diff Report](${url}/diff.html)`
   }
 
-  core.info('Creating or updating GH comment')
-  await createCommentOrUpdate({
-    message,
-    uniqueAppId: 'superactions/deth-profiler',
-    githubToken: token,
-  })
+  if (context.eventName === 'pull_request') {
+    core.info('Creating or updating GH comment')
+    await createCommentOrUpdate({
+      message,
+      uniqueAppId: 'superactions/deth-profiler',
+      githubToken: token,
+    })
+  }
 }
 
 main().catch((e: Error) => {

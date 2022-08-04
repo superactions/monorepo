@@ -2,10 +2,11 @@ import { expect } from 'earljs'
 import { Readable } from 'stream'
 
 import { mock } from '../__test/mock'
+import { streamToString } from './__test'
 import { ArtifactApi } from './ArtifactApi'
 import { HttpClient } from './HttpClient'
 
-describe('ArtifactApi', () => {
+describe(ArtifactApi.name, () => {
   const makeFileStream = (): Readable => Readable.from(['input string'])
   const fileLength = 100
   const apiRoot = 'https://localhost:0'
@@ -98,12 +99,3 @@ describe('ArtifactApi', () => {
     expect(actualUrl).toEqual(`https://user1_repo1_deep_path.localhost:1/alternative-index.html`)
   })
 })
-
-function streamToString(stream: Readable): Promise<string> {
-  const chunks = [] as any
-  return new Promise((resolve, reject) => {
-    stream.on('data', (chunk) => chunks.push(Buffer.from(chunk)))
-    stream.on('error', (err) => reject(err))
-    stream.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')))
-  })
-}

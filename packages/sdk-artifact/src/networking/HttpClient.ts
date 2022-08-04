@@ -52,6 +52,11 @@ async function retry<T>(asyncFn: () => Promise<T>, retryNo = 5, retryDelay = 100
     try {
       return await asyncFn()
     } catch (e: any) {
+      // do not retry on 404
+      if (e.message.includes(404)) {
+        throw e
+      }
+
       core.warning(`Failed with ${e.message}`)
       lastError = e
 

@@ -38,19 +38,11 @@ export class PrArtifactClient extends ArtifactClient {
 
   // @todo: this works only for uploaded artifacts
   getArtifactUrl(key: string): string {
-    if (this.commitContext.event !== 'pull-request') {
-      throw new Error("Can't find base branch!")
-    }
-
     return super.getArtifactUrl(join(this.commitContext.headSha, key))
   }
 
   // @todo: this works only for uploaded artifacts
   getPageUrl(dirPath: string, fileName?: string): string {
-    if (this.commitContext.event !== 'pull-request') {
-      throw new Error("Can't find base branch!")
-    }
-
     return super.getPageUrl(join(this.commitContext.headSha, dirPath), fileName)
   }
 }

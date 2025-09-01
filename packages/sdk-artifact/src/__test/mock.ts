@@ -39,7 +39,7 @@ export function mock<T>(overrides: Partial<T> = {}): MockedObject<T> {
 
 function replaceFunctionsWithMocks<T>(object: T): T {
   const clone = { ...object }
-  for (const key of Object.keys(clone) as (keyof T)[]) {
+  for (const key of Object.keys(clone as any) as (keyof T)[]) {
     const value = clone[key]
     if (typeof value === 'function') {
       if (!isMockFunction(value)) {

@@ -1,6 +1,7 @@
 import * as github from '@actions/github'
 
 import { findCommentByCommentStamp, getPrContextFromGithubContext } from './github'
+import { CreateOrUpdateReponse } from './github/types'
 import { attachStampToBody, getFullStamp } from './stamp'
 
 export type CommentOptions = {
@@ -23,7 +24,7 @@ export async function createCommentOrUpdate({
   githubToken,
   forceCreateNewComment,
   uniqueAppId,
-}: CommentOptions): Promise<void> {
+}: CommentOptions): Promise<CreateOrUpdateReponse> {
   const octokit = github.getOctokit(githubToken)
   const prContext = getPrContextFromGithubContext(github.context)
   if (!prContext) {
@@ -43,7 +44,10 @@ export async function createCommentOrUpdate({
         comment_id: commentToUpdate.id,
         body,
       })
-      return
+
+      return {
+        status: 'updated',
+      }
     }
   }
   await octokit.rest.issues.createComment({
@@ -52,4 +56,8 @@ export async function createCommentOrUpdate({
     issue_number: prContext.pullRequestNumber,
     body,
   })
+
+  return {
+    status: 'created',
+  }
 }

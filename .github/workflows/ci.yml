@@ -41,7 +41,7 @@ jobs:
     needs: test
     strategy:
       matrix:
-        node: ['16']
+        node: ['20']
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
 

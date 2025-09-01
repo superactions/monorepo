@@ -17,7 +17,7 @@ export class ArtifactApi {
   ) {}
 
   async uploadArtifact(file: () => stream.Readable, size: number, key: string, contentType: string): Promise<void> {
-    function makeBody(): FormData {
+    function makeBody(): typeof FormData {
       const form = new FormData()
 
       // we need stream size to be able to send is as formdata: https://github.com/jimmywarting/FormData/issues/138

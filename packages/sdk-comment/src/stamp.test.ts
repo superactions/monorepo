@@ -4,7 +4,7 @@ import { attachStampToBody, getFullStamp } from './stamp'
 
 describe(getFullStamp.name, () => {
   it('returns a hidden tag', () => {
-    expect(getFullStamp('unique-id')).toEqual('<!-- @superactions/comment/unique-id -->')
+    expect(getFullStamp('unique-id')).toEqual('<!-- @superactions/comment/unique-id -->' as any)
   })
 })
 
